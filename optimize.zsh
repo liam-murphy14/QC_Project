@@ -75,21 +75,7 @@ elif [[ $number_opts < 1 ]]; then
     exit 1
 fi
 
-param_array=( )
-i=$number_opts
-while [[ $i > 0 ]]; do
-    p_array=()
-    echo -n "parameter name: "
-    read param_name
-    echo -n "start value: "
-    read start_val
-    echo -n "end value: "
-    read end_val
-    echo -n "step: "
-    read step
-    param_array+=( $param_name $start_val $end_val $step )
-    i=$(($i - 1))
-done
+param_array=$2
 
 # activate venv
 # MUST run from QC_Projects directory

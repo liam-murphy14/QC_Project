@@ -13,7 +13,7 @@ start_date_str_iso = sys.argv[2]
 end_date_str_iso = sys.argv[3]
 start_cash_str = sys.argv[4]
 
-path_to_config_file = os.path.join(f'container/{proj_name}', 'config.json')
+path_to_config_file = os.path.join(f'{proj_name}', 'config.json')
 with open(path_to_config_file) as config_file:
     config_dict = json.load(config_file)
 

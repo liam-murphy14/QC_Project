@@ -58,10 +58,12 @@ while [[ $shifts > 0 ]]; do
     shifts=$(($shifts - 1))
 done
 
-
 # check for valid project
 if [[ ! -d "container/$1" ]]; then
     echo "bad project name, exiting."
+    exit 1
+elif [[ ! $1 ]]; then
+    echo "no project name given, exiting."
     exit 1
 fi
 
@@ -101,14 +103,16 @@ case $number_opts in
         start1=$param_array[2]
         end1=$param_array[3]
         step1=$param_array[4]
-        while [[ $start1 <= $end1 ]]; do
+        for (( i=$start1; i<=$end1; i+=$step1 )); do
             # this is where i would actually do the backtest
             echo
-            echo "TEST python3 param_updater.py $1 $start_date $end_date $start_cash $name1 $start1"
-            echo "TEST lean cloud backtest $1 --push"
+            python3 ../param_updater.py $1 $start_date $end_date $start_cash $name1 $i
+            lean cloud backtest $1 --push
             echo
-            start1=$(($start1 + $step1))
         done
+        deactivate
+        echo "FINISHED OPTIMIZATION"
+        exit 0
         ;;
     2)
         echo "BEGINNING OPTIMIZATION"
@@ -120,17 +124,18 @@ case $number_opts in
         start2=$param_array[6]
         end2=$param_array[7]
         step2=$param_array[8]
-        while [[ $start1 <= $end1 ]]; do
-            while [[ $start2 <= $end2 ]]; do
+        for (( i=$start1; i<=$end1; i+=$step1 )); do
+            for (( j=$start2; j<=$end2; j+=$step2 )); do
                 # this is where i would actually do the backtest
                 echo
-                echo "TEST python3 param_updater.py $1 $start_date $end_date $start_cash $name1 $start1 $name2 $start2"
-                echo "TEST lean cloud backtest $1 --push"
+                echo python3 ../param_updater.py $1 $start_date $end_date $start_cash $name1 $i $name2 $j
+                lean cloud backtest $1 --push
                 echo
-                start2=$(($start2 + $step2))
             done
-            start1=$(($start1 + $step1))
         done
+        deactivate
+        echo "FINISHED OPTIMIZATION"
+        exit 0
         ;;
     3)
         echo "BEGINNING OPTIMIZATION"
@@ -146,20 +151,20 @@ case $number_opts in
         start3=$param_array[10]
         end3=$param_array[11]
         step3=$param_array[12]
-        while [[ $start1 <= $end1 ]]; do
-            while [[ $start2 <= $end2 ]]; do
-                while [[ $start3 <= $end3 ]]; do
+        for (( i=$start1; i<=$end1; i+=$step1 )); do
+            for (( j=$start2; j<=$end2; j+=$step2 )); do
+                for (( k=$start3; k<=$end3; k+=$step3 )); do
                     # this is where i would actually do the backtest
                     echo
-                    echo "TEST python3 param_updater.py $1 $start_date $end_date $start_cash $name1 $start1 $name2 $start2 $name3 $start3"
-                    echo "TEST lean cloud backtest $1 --push"
+                    echo python3 ../param_updater.py $1 $start_date $end_date $start_cash $name1 $i $name2 $j $name3 $k
+                    lean cloud backtest $1 --push
                     echo
-                    start3=$(($start3 + $step3))
                 done
-                start2=$(($start2 + $step2))
             done
-            start1=$(($start1 + $step1))
         done
+        deactivate
+        echo "FINISHED OPTIMIZATION"
+        exit 0
         ;;
     \?)
         echo "bad number of optimizations. exiting."
@@ -167,6 +172,3 @@ case $number_opts in
         exit 1
         ;;
 esac
-
-echo "FINISHED OPTIMIZATION"
-exit 0

@@ -4,6 +4,11 @@ to call: python3 param_updater.py <project_folder_name> <start_date in iso forma
 import json
 import sys
 import os
+import time
+import random as r
+
+waittime = r.randint(900, 2700)
+time.sleep(waittime)
 
 # make sure we have the right amount of arguments
 assert(len(sys.argv) % 2 == 1)

@@ -80,6 +80,7 @@ case ${#pos_args[@]} in
         for (( i=$start1; i<=$end1; i+=$step1 )); do
             # this is where i would actually do the backtest
             echo
+            echo "$start_date to $end_date, starting with $start_cash, params $name1=$i"
             python3 ../param_updater.py $proj_name $start_date $end_date $start_cash $name1 $i
             lean cloud backtest $proj_name --push
             echo
@@ -102,6 +103,7 @@ case ${#pos_args[@]} in
             for (( j=$start2; j<=$end2; j+=$step2 )); do
                 # this is where i would actually do the backtest
                 echo
+                echo "$start_date to $end_date, starting with $start_cash, params $name1=$i, $name2=$j"
                 echo python3 ../param_updater.py $proj_name $start_date $end_date $start_cash $name1 $i $name2 $j
                 lean cloud backtest $proj_name --push
                 echo
@@ -130,6 +132,7 @@ case ${#pos_args[@]} in
                 for (( k=$start3; k<=$end3; k+=$step3 )); do
                     # this is where i would actually do the backtest
                     echo
+                    echo "$start_date to $end_date, starting with $start_cash, params $name1=$i, $name2=$j, $name3=$k"
                     echo python3 ../param_updater.py $proj_name $start_date $end_date $start_cash $name1 $i $name2 $j $name3 $k
                     lean cloud backtest $proj_name --push
                     echo

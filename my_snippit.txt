@@ -1,12 +1,7 @@
 # START MY SNIPPIT
-self.SetSecurityInitializer(self.zero_fee)
 start_year, start_month, start_day = tuple([int(date_item) for date_item in self.GetParameter("start_date").split('-')])
 end_year, end_month, end_day = tuple([int(date_item) for date_item in self.GetParameter("end_date").split('-')])
 self.SetStartDate(start_year, start_month, start_day)
 self.SetEndDate(end_year, end_month, end_day)
 self.SetCash(int(self.GetParameter("start_cash")))
 # END MY SNIPPIT
-
-
-def zero_fee(self, sec : Security):
-    sec.SetFeeModel(ConstantFeeModel(0))
